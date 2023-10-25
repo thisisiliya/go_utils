@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func ReadFile(path string) []string {
+func ReadFile(path string) *[]string {
 
 	var contents []string
 	file, err := os.Open(path)
@@ -32,5 +32,5 @@ func ReadFile(path string) []string {
 	}
 
 	file.Close()
-	return contents
+	return &contents
 }
