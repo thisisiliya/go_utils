@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func ReadFile(path string) *[]string {
+func ReadByLine(path string) *[]string {
 
 	var contents []string
 	file, err := os.Open(path)
