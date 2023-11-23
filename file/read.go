@@ -2,18 +2,17 @@ package file
 
 import (
 	"bufio"
-	"fmt"
 	"os"
 )
 
-func ReadByLine(path string) *[]string {
+func ReadByLine(path string) (*[]string, error) {
 
 	var contents []string
 	file, err := os.Open(path)
 
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(0)
+
+		return &contents, err
 	}
 
 	scanner := bufio.NewScanner(file)
@@ -27,10 +26,10 @@ func ReadByLine(path string) *[]string {
 	}
 
 	if scanner.Err() != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(0)
+
+		return &contents, err
 	}
 
 	file.Close()
-	return &contents
+	return &contents, nil
 }
