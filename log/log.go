@@ -23,6 +23,15 @@ func Info(s ...string) {
 	logger.Println(strings.Join(s, " "))
 }
 
+func Warn(s ...string) {
+
+	logger := log.New(os.Stderr, "", 0)
+	coloredPrefix := color.New(color.FgYellow).SprintFunc()("[WRN] ")
+
+	logger.SetPrefix(coloredPrefix)
+	logger.Println(strings.Join(s, " "))
+}
+
 func Error(s ...string) {
 
 	logger := log.New(os.Stderr, "", 0)
