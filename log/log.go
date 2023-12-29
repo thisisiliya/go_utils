@@ -33,7 +33,7 @@ func Info(s ...string) {
 
 func Warn(s ...string) {
 
-	if SILENT {
+	if !SILENT {
 
 		logger := log.New(os.Stderr, "", 0)
 		coloredPrefix := color.New(color.FgYellow).SprintFunc()("[WRN] ")
@@ -45,7 +45,7 @@ func Warn(s ...string) {
 
 func Error(s ...string) {
 
-	if SILENT {
+	if !SILENT {
 
 		logger := log.New(os.Stderr, "", 0)
 		coloredPrefix := color.New(color.FgRed).SprintFunc()("[ERR] ")
