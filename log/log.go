@@ -8,7 +8,9 @@ import (
 	"github.com/fatih/color"
 )
 
-var SILENT bool
+var SILENT = true
+var DEBUG bool
+var NO_COLOR bool
 
 func Trace(s ...string) {
 
@@ -19,7 +21,23 @@ func Trace(s ...string) {
 	}
 }
 
+func Debug(s ...string) {
+
+	color.NoColor = NO_COLOR
+
+	if DEBUG {
+
+		logger := log.New(os.Stderr, "", 0)
+		coloredPrefix := color.New(color.FgGreen).SprintFunc()("[DBG] ")
+
+		logger.SetPrefix(coloredPrefix)
+		logger.Println(strings.Join(s, " "))
+	}
+}
+
 func Info(s ...string) {
+
+	color.NoColor = NO_COLOR
 
 	if !SILENT {
 
@@ -33,6 +51,8 @@ func Info(s ...string) {
 
 func Warn(s ...string) {
 
+	color.NoColor = NO_COLOR
+
 	if !SILENT {
 
 		logger := log.New(os.Stderr, "", 0)
@@ -43,14 +63,32 @@ func Warn(s ...string) {
 	}
 }
 
-func Error(s ...string) {
+func Error(err error) {
 
-	if !SILENT {
+	color.NoColor = NO_COLOR
+
+	if !SILENT && err != nil {
 
 		logger := log.New(os.Stderr, "", 0)
 		coloredPrefix := color.New(color.FgRed).SprintFunc()("[ERR] ")
 
 		logger.SetPrefix(coloredPrefix)
-		logger.Println(strings.Join(s, " "))
+		logger.Println(err)
+	}
+}
+
+func Fatal(err error) {
+
+	color.NoColor = NO_COLOR
+
+	if err != nil {
+
+		logger := log.New(os.Stderr, "", 0)
+		coloredPrefix := color.New(color.FgMagenta).SprintFunc()("[FTL] ")
+
+		logger.SetPrefix(coloredPrefix)
+		logger.Println(err)
+
+		os.Exit(0)
 	}
 }
