@@ -11,12 +11,19 @@ import (
 var SILENT = true
 var DEBUG bool
 var NO_COLOR bool
+var OUT = os.Stderr
+
+var DBG_COLOR = color.FgGreen
+var INF_COLOR = color.FgBlue
+var WRN_COLOR = color.FgYellow
+var ERR_COLOR = color.FgRed
+var FTL_COLOR = color.FgMagenta
 
 func Trace(s ...string) {
 
 	if !SILENT {
 
-		logger := log.New(os.Stderr, "", 0)
+		logger := log.New(OUT, "", 0)
 		logger.Println(strings.Join(s, " "))
 	}
 }
@@ -27,8 +34,8 @@ func Debug(s ...string) {
 
 	if DEBUG {
 
-		logger := log.New(os.Stderr, "", 0)
-		coloredPrefix := color.New(color.FgGreen).SprintFunc()("[DBG] ")
+		logger := log.New(OUT, "", 0)
+		coloredPrefix := "[" + color.New(DBG_COLOR).SprintFunc()("DBG") + "] "
 
 		logger.SetPrefix(coloredPrefix)
 		logger.Println(strings.Join(s, " "))
@@ -41,8 +48,8 @@ func Info(s ...string) {
 
 	if !SILENT {
 
-		logger := log.New(os.Stderr, "", 0)
-		coloredPrefix := color.New(color.FgBlue).SprintFunc()("[INF] ")
+		logger := log.New(OUT, "", 0)
+		coloredPrefix := "[" + color.New(INF_COLOR).SprintFunc()("INF") + "] "
 
 		logger.SetPrefix(coloredPrefix)
 		logger.Println(strings.Join(s, " "))
@@ -55,8 +62,8 @@ func Warn(s ...string) {
 
 	if !SILENT {
 
-		logger := log.New(os.Stderr, "", 0)
-		coloredPrefix := color.New(color.FgYellow).SprintFunc()("[WRN] ")
+		logger := log.New(OUT, "", 0)
+		coloredPrefix := "[" + color.New(WRN_COLOR).SprintFunc()("WRN") + "] "
 
 		logger.SetPrefix(coloredPrefix)
 		logger.Println(strings.Join(s, " "))
@@ -69,8 +76,8 @@ func Error(err error) {
 
 	if !SILENT && err != nil {
 
-		logger := log.New(os.Stderr, "", 0)
-		coloredPrefix := color.New(color.FgRed).SprintFunc()("[ERR] ")
+		logger := log.New(OUT, "", 0)
+		coloredPrefix := "[" + color.New(ERR_COLOR).SprintFunc()("ERR") + "] "
 
 		logger.SetPrefix(coloredPrefix)
 		logger.Println(err)
@@ -83,8 +90,8 @@ func Fatal(err error) {
 
 	if err != nil {
 
-		logger := log.New(os.Stderr, "", 0)
-		coloredPrefix := color.New(color.FgMagenta).SprintFunc()("[FTL] ")
+		logger := log.New(OUT, "", 0)
+		coloredPrefix := "[" + color.New(FTL_COLOR).SprintFunc()("FTL") + "] "
 
 		logger.SetPrefix(coloredPrefix)
 		logger.Println(err)
